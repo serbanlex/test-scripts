@@ -2,20 +2,27 @@
 mkdir -p /root/test-data
 cd /root/test-data
 
-# Reliable Europe/Rome TZ string (handles DST correctly)
-export TZ='CET-1CEST,M3.5.0,M10.5.0/3'
+# Always force Italy as UTC+1 (no DST)
+offset_hours=1
 
 while true; do
-  fname="data_$(date '+%d_%b_%H_%M_%S').txt"
+  # File timestamp = UTC + 1 hour
+  fname="data_$(date -u -d "${offset_hours} hour" '+%d_%b_%H_%M_%S').txt"
+
   {
     echo "=== Test Data File ==="
-    echo "Timestamp: $(date '+%Y-%m-%d %H:%M:%S %Z')"
-    echo "Epoch: $(date +%s)"
-    echo "Hostname: $(hostname)"
-    echo "Uptime: $(uptime)"
+
+    echo "UTC Timestamp:        $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+    echo "Forced Italy (UTC+1): $(date -u -d "${offset_hours} hour" '+%Y-%m-%d %H:%M:%S')"
+    echo "Fixed Offset:         +1h"
+
+    echo "Epoch:                $(date -u +%s)"
+    echo "Hostname:             $(hostname)"
+    echo "Uptime:               $(uptime)"
     echo ""
     echo "Random data block:"
     dd if=/dev/urandom bs=1K count=100 2>/dev/null | base64
   } > "$fname"
+
   sleep 30
 done
