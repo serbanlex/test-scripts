@@ -2,12 +2,11 @@
 mkdir -p /root/test-data
 cd /root/test-data
 while true; do
-  ts=$(date +%s)
-  fname="data_$ts.txt"
+  fname="data_$(date '+%d_%b_%H_%M_%S').txt"
   {
     echo "=== Test Data File ==="
     echo "Timestamp: $(date '+%Y-%m-%d %H:%M:%S')"
-    echo "Epoch: $ts"
+    echo "Epoch: $(date +%s)"
     echo "Hostname: $(hostname)"
     echo "Uptime: $(uptime)"
     echo ""
