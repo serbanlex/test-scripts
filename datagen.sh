@@ -1,6 +1,10 @@
 #!/bin/sh
 mkdir -p /root/test-data
 cd /root/test-data
+
+# Set timezone to Rome
+export TZ="Europe/Rome"
+
 while true; do
   fname="data_$(date '+%d_%b_%H_%M_%S').txt"
   {
